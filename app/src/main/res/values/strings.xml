@@ -4,4 +4,6 @@
     <string name="dream_title_label">Title</string>
     <string name="dream_details_label">Details</string>
     <string name="dream_solved_label">Solved</string>
+    <string name="dream_title">Dream Title</string>
+    <string name="dream_date">Dream Date</string>
 </resources>

@@ -9,12 +9,12 @@
         android:id="@+id/dream_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dream Title"/>
+        android:text="@string/dream_title"/>
 
     <TextView
         android:id="@+id/dream_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dream Date"/>
+        android:text="@string/dream_date"/>
 
 </LinearLayout>
