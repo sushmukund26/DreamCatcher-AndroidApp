@@ -12,20 +12,20 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-private const val TAG = "CrimeListFragment"
+private const val TAG = "DreamListFragment"
 
 class DreamListFragment : Fragment() {
 
-    private lateinit var crimeRecyclerView: RecyclerView
-    private var adapter: CrimeAdapter? = null
+    private lateinit var dreamRecyclerView: RecyclerView
+    private var adapter: DreamAdapter? = null
 
-    private val crimeListViewModel: DreamListViewModel by lazy {
+    private val dreamListViewModel: DreamListViewModel by lazy {
         ViewModelProviders.of(this).get(DreamListViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "Total crimes: ${crimeListViewModel.crimes.size}")
+        Log.d(TAG, "Total dreams: ${dreamListViewModel.dreams.size}")
     }
 
     companion object {
@@ -41,9 +41,9 @@ class DreamListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_dream_list, container, false)
 
-        crimeRecyclerView =
-            view.findViewById(R.id.crime_recycler_view) as RecyclerView
-        crimeRecyclerView.layoutManager = LinearLayoutManager(context)
+        dreamRecyclerView =
+            view.findViewById(R.id.dream_recycler_view) as RecyclerView
+        dreamRecyclerView.layoutManager = LinearLayoutManager(context)
 
         updateUI()
 
@@ -51,50 +51,50 @@ class DreamListFragment : Fragment() {
     }
 
     private fun updateUI() {
-        val crimes = crimeListViewModel.crimes
-        adapter = CrimeAdapter(crimes)
-        crimeRecyclerView.adapter = adapter
+        val dreams = dreamListViewModel.dreams
+        adapter = DreamAdapter(dreams)
+        dreamRecyclerView.adapter = adapter
     }
 
-    private inner class CrimeHolder(view: View)
+    private inner class DreamHolder(view: View)
         : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        private lateinit var crime: Dream
+        private lateinit var dream: Dream
 
-        private val titleTextView: TextView = itemView.findViewById(R.id.crime_title)
-        private val dateTextView: TextView = itemView.findViewById(R.id.crime_date)
+        private val titleTextView: TextView = itemView.findViewById(R.id.dream_title)
+        private val dateTextView: TextView = itemView.findViewById(R.id.dream_date)
 
         init {
             itemView.setOnClickListener(this)
         }
 
-        fun bind(crime: Dream) {
-            this.crime = crime
-            titleTextView.text = this.crime.title
-            dateTextView.text = this.crime.date.toString()
+        fun bind(dream: Dream) {
+            this.dream = dream
+            titleTextView.text = this.dream.title
+            dateTextView.text = this.dream.date.toString()
         }
 
         override fun onClick(v: View) {
-            Toast.makeText(context, "${crime.title} pressed!", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "${dream.title} pressed!", Toast.LENGTH_SHORT)
                 .show()
         }
 
     }
 
-    private inner class CrimeAdapter(var crimes: List<Dream>)
-        : RecyclerView.Adapter<CrimeHolder>() {
+    private inner class DreamAdapter(var dreams: List<Dream>)
+        : RecyclerView.Adapter<DreamHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                : CrimeHolder {
+                : DreamHolder {
             val view = layoutInflater.inflate(R.layout.list_item_dream, parent, false)
-            return CrimeHolder(view)
+            return DreamHolder(view)
         }
 
-        override fun getItemCount() = crimes.size
+        override fun getItemCount() = dreams.size
 
-        override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
-            val crime = crimes[position]
-            holder.bind(crime)
+        override fun onBindViewHolder(holder: DreamHolder, position: Int) {
+            val dream = dreams[position]
+            holder.bind(dream)
         }
     }
 }

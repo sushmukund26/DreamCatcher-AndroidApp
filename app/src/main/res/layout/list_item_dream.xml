@@ -6,15 +6,15 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/crime_title"
+        android:id="@+id/dream_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crime Title"/>
+        android:text="Dream Title"/>
 
     <TextView
-        android:id="@+id/crime_date"
+        android:id="@+id/dream_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crime Date"/>
+        android:text="Dream Date"/>
 
 </LinearLayout>

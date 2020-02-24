@@ -4,14 +4,14 @@ import androidx.lifecycle.ViewModel
 
 class DreamListViewModel : ViewModel() {
 
-    val crimes = mutableListOf<Dream>()
+    val dreams = mutableListOf<Dream>()
 
     init {
         for (i in 0 until 100) {
-            val crime = Dream()
-            crime.title = "Dream #$i"
-            crime.isSolved = i % 2 == 0
-            crimes += crime
+            val dream = Dream()
+            dream.title = "Dream #$i"
+            dream.isSolved = i % 2 == 0
+            dreams += dream
         }
     }
 }

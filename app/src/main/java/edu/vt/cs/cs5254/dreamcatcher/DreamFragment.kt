@@ -32,9 +32,9 @@ class DreamFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_dream, container, false)
 
-        titleField = view.findViewById(R.id.crime_title)
-        dateButton = view.findViewById(R.id.crime_date)
-        isSolvedCheckBox = view.findViewById(R.id.crime_solved)
+        titleField = view.findViewById(R.id.dream_title)
+        dateButton = view.findViewById(R.id.dream_date)
+        isSolvedCheckBox = view.findViewById(R.id.dream_solved)
 
         dateButton.apply {
             text = dream.date.toString()
