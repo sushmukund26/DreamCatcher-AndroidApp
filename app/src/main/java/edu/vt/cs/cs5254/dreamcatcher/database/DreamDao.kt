@@ -2,7 +2,6 @@ package edu.vt.cs.cs5254.dreamcatcher.database
 
 import androidx.room.Dao
 import androidx.room.Query
-import edu.vt.cs.cs5254.dreamcatcher.Dream
 import java.util.*
 
 @Dao

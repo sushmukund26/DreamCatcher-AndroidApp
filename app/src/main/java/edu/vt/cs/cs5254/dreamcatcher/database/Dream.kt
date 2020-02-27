@@ -1,4 +1,4 @@
-package edu.vt.cs.cs5254.dreamcatcher
+package edu.vt.cs.cs5254.dreamcatcher.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

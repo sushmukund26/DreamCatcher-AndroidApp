@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 
 class DreamFragment : Fragment() {
 

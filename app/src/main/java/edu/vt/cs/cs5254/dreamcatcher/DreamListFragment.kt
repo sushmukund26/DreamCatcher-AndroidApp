@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 
 private const val TAG = "DreamListFragment"
 

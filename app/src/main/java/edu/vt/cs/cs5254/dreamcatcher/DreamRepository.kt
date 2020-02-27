@@ -2,6 +2,7 @@ package edu.vt.cs.cs5254.dreamcatcher
 
 import android.content.Context
 import androidx.room.Room
+import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import edu.vt.cs.cs5254.dreamcatcher.database.DreamDatabase
 import java.util.*
 
