@@ -22,7 +22,9 @@ class DreamFragment : Fragment() {
     private lateinit var dream: Dream
     private lateinit var titleField: EditText
     private lateinit var dreamRevealedButton: Button
+    private lateinit var dreamDeferredButton: Button
     private lateinit var isRealizedCheckBox: CheckBox
+    private lateinit var isDeferredCheckBox: CheckBox
 
     private val dreamDetailViewModel: DreamDetailViewModel by lazy {
         ViewModelProviders.of(this).get(DreamDetailViewModel::class.java)
@@ -46,11 +48,9 @@ class DreamFragment : Fragment() {
 
         titleField = view.findViewById(R.id.dream_title)
         dreamRevealedButton = view.findViewById(R.id.dream_entry_0_button)
+        dreamDeferredButton = view.findViewById(R.id.dream_entry_1_button)
         isRealizedCheckBox = view.findViewById(R.id.dream_realized)
-
-        dreamRevealedButton.apply {
-            isEnabled = false
-        }
+        isDeferredCheckBox = view.findViewById(R.id.dream_deferred)
 
         return view
     }
@@ -98,7 +98,15 @@ class DreamFragment : Fragment() {
         titleField.addTextChangedListener(titleWatcher)
 
         isRealizedCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            dream.isRealized = isChecked
+            isDeferredCheckBox.isEnabled = !isChecked
+            //add or remove button
+        }
+
+        isDeferredCheckBox.setOnCheckedChangeListener { _, isChecked ->
             dream.isDeferred = isChecked
+            isRealizedCheckBox.isEnabled = !isChecked
+            //add or remove button
         }
     }
 
@@ -109,9 +117,13 @@ class DreamFragment : Fragment() {
 
     private fun updateUI() {
         titleField.setText(dream.description)
-//        dreamRevealedButton.text = dream.dateRevealed.toString()
+
         isRealizedCheckBox.apply {
             isChecked = dream.isRealized
+            jumpDrawablesToCurrentState()
+        }
+        isDeferredCheckBox.apply {
+            isChecked = dream.isDeferred
             jumpDrawablesToCurrentState()
         }
     }
