@@ -1,7 +1,6 @@
 package edu.vt.cs.cs5254.dreamcatcher
 
 import androidx.lifecycle.ViewModel
-import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 
 class DreamListViewModel : ViewModel() {
 

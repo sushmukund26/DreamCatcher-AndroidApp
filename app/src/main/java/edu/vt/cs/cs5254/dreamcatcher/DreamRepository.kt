@@ -27,101 +27,97 @@ class DreamRepository private constructor(context: Context) {
                             description = "My First Dream",
                             isRealized = true
                         )
-                        addDream(dream0)
-//                        val dream0Entries = listOf(
-//                            DreamEntry(
-//                                dreamId = dream0.id,
-//                                kind = REVEALED,
-//                                comment = "Dream Revealed"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream0.id,
-//                                kind = COMMENT,
-//                                comment = "Comment 1"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream0.id,
-//                                kind = COMMENT,
-//                                comment = "Comment 2"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream0.id,
-//                                kind = COMMENT,
-//                                comment = "Comment 3"
-//                            )
-//                        )
-//                        addDreamWithEntries(DreamWithEntries(dream0, dream0Entries))
+                        val dream0Entries = listOf(
+                            DreamEntry(
+                                dreamId = dream0.id,
+                                kind = REVEALED,
+                                comment = "Dream Revealed"
+                            ),
+                            DreamEntry(
+                                dreamId = dream0.id,
+                                kind = COMMENT,
+                                comment = "Comment 1"
+                            ),
+                            DreamEntry(
+                                dreamId = dream0.id,
+                                kind = COMMENT,
+                                comment = "Comment 2"
+                            ),
+                            DreamEntry(
+                                dreamId = dream0.id,
+                                kind = COMMENT,
+                                comment = "Comment 3"
+                            )
+                        )
+                        addDreamWithEntries(DreamWithEntries(dream0, dream0Entries))
 
 
                         val dream1 = Dream(
                             description = "My Second Dream",
                             isDeferred = true
                         )
-                        addDream(dream1)
-//                        val dream1Entries = listOf(
-//                            DreamEntry(
-//                                dreamId = dream1.id,
-//                                kind = REVEALED,
-//                                comment = "Dream Revealed"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream1.id,
-//                                kind = COMMENT,
-//                                comment = "Comment 1"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream1.id,
-//                                kind = COMMENT,
-//                                comment = "Comment 2"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream1.id,
-//                                kind = DreamEntryKind.DEFERRED,
-//                                comment = "Dream Deferred"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream1.id,
-//                                kind = COMMENT,
-//                                comment = "Comment 3"
-//                            )
-//                        )
-//                        addDreamWithEntries(DreamWithEntries(dream1, dream1Entries))
+                        val dream1Entries = listOf(
+                            DreamEntry(
+                                dreamId = dream1.id,
+                                kind = REVEALED,
+                                comment = "Dream Revealed"
+                            ),
+                            DreamEntry(
+                                dreamId = dream1.id,
+                                kind = COMMENT,
+                                comment = "Comment 1"
+                            ),
+                            DreamEntry(
+                                dreamId = dream1.id,
+                                kind = COMMENT,
+                                comment = "Comment 2"
+                            ),
+                            DreamEntry(
+                                dreamId = dream1.id,
+                                kind = DreamEntryKind.DEFERRED,
+                                comment = "Dream Deferred"
+                            ),
+                            DreamEntry(
+                                dreamId = dream1.id,
+                                kind = COMMENT,
+                                comment = "Comment 3"
+                            )
+                        )
+                        addDreamWithEntries(DreamWithEntries(dream1, dream1Entries))
 
 
                         val dream2 =
                             Dream(description = "My Third Dream")
-                        addDream(dream2)
-//                        val dream2Entries = listOf(
-//                            DreamEntry(
-//                                dreamId = dream2.id,
-//                                kind = REVEALED,
-//                                comment = "Dream Revealed"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream2.id,
-//                                kind = COMMENT,
-//                                comment = "Comment 1"
-//                            ),
-//                            DreamEntry(
-//                                dreamId = dream2.id,
-//                                kind = COMMENT,
-//                                comment = "Comment 2"
-//                            )
-//                        )
-//                        addDreamWithEntries(DreamWithEntries(dream2, dream2Entries))
+                        val dream2Entries = listOf(
+                            DreamEntry(
+                                dreamId = dream2.id,
+                                kind = REVEALED,
+                                comment = "Dream Revealed"
+                            ),
+                            DreamEntry(
+                                dreamId = dream2.id,
+                                kind = COMMENT,
+                                comment = "Comment 1"
+                            ),
+                            DreamEntry(
+                                dreamId = dream2.id,
+                                kind = COMMENT,
+                                comment = "Comment 2"
+                            )
+                        )
+                        addDreamWithEntries(DreamWithEntries(dream2, dream2Entries))
 
                         for (i in 3..20) {
                             val dream =
                                 Dream(description = "Dream $i")
-                            addDream(dream)
-//                            val entries = listOf(
-//                                DreamEntry(
-//                                    dreamId = dream.id,
-//                                    kind = REVEALED,
-//                                    comment = "Dream Revealed"
-//                                )
-//                            )
-//                            addDreamWithEntries(DreamWithEntries(dream, entries))
+                            val entries = listOf(
+                                DreamEntry(
+                                    dreamId = dream.id,
+                                    kind = REVEALED,
+                                    comment = "Dream Revealed"
+                                )
+                            )
+                            addDreamWithEntries(DreamWithEntries(dream, entries))
                         }
 
                     }
@@ -140,9 +136,6 @@ class DreamRepository private constructor(context: Context) {
     private val executor = Executors.newSingleThreadExecutor()
 
     fun getDreams(): LiveData<List<Dream>> = dreamDao.getDreams()
-    fun getDream(dreamID: UUID?): LiveData<Dream?>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     fun updateDream(dream: Dream) {
         executor.execute {
@@ -150,14 +143,17 @@ class DreamRepository private constructor(context: Context) {
         }
     }
 
-//    fun getDreamWithEntries(dreamId: UUID): LiveData<DreamWithEntries> =
-//        dreamDao.getDreamWithEntries(dreamId)
-//
-//    fun updateDreamWithEntries(dreamWithEntries: DreamWithEntries) {
-//        executor.execute {
-//            dreamDao.updateDreamWithEntries(dreamWithEntries)
-//        }
-//    }
+    fun getDream(dreamId: UUID): LiveData<Dream> =
+        dreamDao.getDream(dreamId)
+
+    fun getDreamWithEntries(dreamId: UUID): LiveData<DreamWithEntries> =
+        dreamDao.getDreamWithEntries(dreamId)
+
+    fun updateDreamWithEntries(dreamWithEntries: DreamWithEntries) {
+        executor.execute {
+            dreamDao.updateDreamWithEntries(dreamWithEntries)
+        }
+    }
 
     companion object {
         private var INSTANCE: DreamRepository? = null

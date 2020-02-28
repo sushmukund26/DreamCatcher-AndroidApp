@@ -15,16 +15,17 @@ data class Dream(@PrimaryKey val id: UUID = UUID.randomUUID(),
                  var isDeferred: Boolean = false
 )
 
-//@Entity(tableName= "dream_entry",
-//    foreignKeys = [ForeignKey(entity = Dream::class,
-//        parentColumns = ["id"],
-//        childColumns = ["dreamId"],
-//        onDelete = CASCADE)],
-//    indices = [Index(name = "dream_entry_i1",  value = ["dreamId"])]
-//)
-//data class DreamEntry(@PrimaryKey val id: UUID = UUID.randomUUID(),
-//                      val dateCreated: Date = Date(),
-//                      val comment: String = "",
-//                      val kind: DreamEntryKind = DreamEntryKind.COMMENT,
-//                      val dreamId: UUID
-//)
+@Entity(tableName= "dream_entry",
+    foreignKeys = [ForeignKey(entity = Dream::class,
+        parentColumns = ["id"],
+        childColumns = ["dreamId"],
+        onDelete = CASCADE)],
+    indices = [Index(name = "dream_entry_i1",  value = ["dreamId"])]
+)
+
+data class DreamEntry(@PrimaryKey val id: UUID = UUID.randomUUID(),
+                      val dateCreated: Date = Date(),
+                      val comment: String = "",
+                      val kind: DreamEntryKind = DreamEntryKind.COMMENT,
+                      val dreamId: UUID
+)

@@ -28,12 +28,12 @@ class DreamTypeConverters {
     }
 
     @TypeConverter
-    fun toDreamEntryKind(kind: String?): DreamEntryKind? {
-        return DreamEntryKind.COMMENT
+    fun toDreamEntryKind(kind: String): DreamEntryKind {
+        return DreamEntryKind.valueOf(kind)
     }
 
     @TypeConverter
-    fun fromDreamEntryKind(kind: DreamEntryKind?): String? {
-        return kind?.toString()
+    fun fromDreamEntryKind(kind: DreamEntryKind): String {
+        return kind.name
     }
 }

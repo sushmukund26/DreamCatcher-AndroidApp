@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import java.util.*
 
-class DreamDetailViewModel() : ViewModel() {
+class DreamDetailViewModel : ViewModel() {
 
     private val dreamRepository = DreamRepository.get()
     private val dreamIdLiveData = MutableLiveData<UUID>()
