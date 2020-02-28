@@ -3,7 +3,8 @@
     <string name="dream_title_hint">Enter a title for the dream.</string>
     <string name="dream_title_label">Title</string>
     <string name="dream_details_label">Details</string>
-    <string name="dream_solved_label">Solved</string>
     <string name="dream_title">Dream Title</string>
     <string name="dream_date">Dream Date</string>
+    <string name="dream_realized_label">Realized</string>
+    <string name="dream_deferred_label">Deferred</string>
 </resources>

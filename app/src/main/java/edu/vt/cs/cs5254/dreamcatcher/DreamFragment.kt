@@ -46,7 +46,7 @@ class DreamFragment : Fragment() {
 
         titleField = view.findViewById(R.id.dream_title)
         dateButton = view.findViewById(R.id.dream_date)
-        isSolvedCheckBox = view.findViewById(R.id.dream_solved)
+        isSolvedCheckBox = view.findViewById(R.id.dream_realized)
 
         dateButton.apply {
             text = dream.dateRevealed.toString()
