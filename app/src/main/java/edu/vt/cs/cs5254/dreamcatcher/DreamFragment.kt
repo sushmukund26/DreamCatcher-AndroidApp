@@ -38,7 +38,7 @@ class DreamFragment : Fragment() {
         isSolvedCheckBox = view.findViewById(R.id.dream_solved)
 
         dateButton.apply {
-            text = dream.date.toString()
+            text = dream.dateRevealed.toString()
             isEnabled = false
         }
 
@@ -65,7 +65,7 @@ class DreamFragment : Fragment() {
                 before: Int,
                 count: Int
             ) {
-                dream.title = sequence.toString()
+                dream.description = sequence.toString()
             }
 
             override fun afterTextChanged(sequence: Editable?) {
@@ -76,7 +76,7 @@ class DreamFragment : Fragment() {
         titleField.addTextChangedListener(titleWatcher)
 
         isSolvedCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            dream.isSolved = isChecked
+            dream.isDeferred = isChecked
         }
     }
 }

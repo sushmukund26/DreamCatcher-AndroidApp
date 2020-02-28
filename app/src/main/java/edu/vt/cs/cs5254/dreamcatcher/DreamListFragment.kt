@@ -1,5 +1,6 @@
 package edu.vt.cs.cs5254.dreamcatcher
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,14 +10,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
+import java.util.*
 
 private const val TAG = "DreamListFragment"
 
 class DreamListFragment : Fragment() {
+
+    /**
+     * Required interface for hosting activities
+     */
+    interface Callbacks {
+        fun onDreamSelected(dreamId: UUID)
+    }
+
+    private var callbacks: Callbacks? = null
 
     private lateinit var dreamRecyclerView: RecyclerView
     private var adapter: DreamAdapter? = null
@@ -25,9 +37,9 @@ class DreamListFragment : Fragment() {
         ViewModelProviders.of(this).get(DreamListViewModel::class.java)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d(TAG, "Total dreams: ${dreamListViewModel.dreams.size}")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks?
     }
 
     companion object {
@@ -47,13 +59,28 @@ class DreamListFragment : Fragment() {
             view.findViewById(R.id.dream_recycler_view) as RecyclerView
         dreamRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        updateUI()
-
         return view
     }
 
-    private fun updateUI() {
-        val dreams = dreamListViewModel.dreams
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dreamListViewModel.dreamListLiveData.observe(
+            viewLifecycleOwner,
+            Observer { dreams ->
+                dreams?.let {
+                    Log.i(TAG, "Got dreams ${dreams.size}")
+                    updateUI(dreams)
+                }
+            }
+        )
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
+    }
+
+    private fun updateUI(dreams: List<Dream>) {
         adapter = DreamAdapter(dreams)
         dreamRecyclerView.adapter = adapter
     }
@@ -73,9 +100,9 @@ class DreamListFragment : Fragment() {
 
         fun bind(dream: Dream) {
             this.dream = dream
-            titleTextView.text = this.dream.title
-            dateTextView.text = this.dream.date.toString()
-            dreamImageView.visibility = if (dream.isSolved) {
+            titleTextView.text = this.dream.description
+            dateTextView.text = this.dream.dateRevealed.toString()
+            dreamImageView.visibility = if (dream.isDeferred) {
                 View.VISIBLE
             } else {
                 View.GONE
@@ -83,8 +110,7 @@ class DreamListFragment : Fragment() {
         }
 
         override fun onClick(v: View) {
-            Toast.makeText(context, "${dream.title} pressed!", Toast.LENGTH_SHORT)
-                .show()
+            callbacks?.onDreamSelected(dream.id)
         }
 
     }

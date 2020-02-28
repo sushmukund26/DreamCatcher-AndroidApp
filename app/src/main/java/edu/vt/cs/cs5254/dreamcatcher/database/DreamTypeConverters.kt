@@ -26,4 +26,14 @@ class DreamTypeConverters {
     fun fromUUID(uuid: UUID?): String? {
         return uuid?.toString()
     }
+
+    @TypeConverter
+    fun toDreamEntryKind(kind: String?): DreamEntryKind? {
+        return DreamEntryKind.COMMENT
+    }
+
+    @TypeConverter
+    fun fromDreamEntryKind(kind: DreamEntryKind?): String? {
+        return kind?.toString()
+    }
 }
