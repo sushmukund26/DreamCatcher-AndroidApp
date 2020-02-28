@@ -10,7 +10,12 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
+import androidx.lifecycle.Observer
+import java.util.*
+
+private const val ARG_DREAM_ID = "dream_id"
 
 class DreamFragment : Fragment() {
 
@@ -19,10 +24,16 @@ class DreamFragment : Fragment() {
     private lateinit var dateButton: Button
     private lateinit var isSolvedCheckBox: CheckBox
 
+    private val dreamDetailViewModel: DreamDetailViewModel by lazy {
+        ViewModelProviders.of(this).get(DreamDetailViewModel::class.java)
+    }
+
     //initialize model fields
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dream = Dream()
+        val dreamId: UUID = arguments?.getSerializable(ARG_DREAM_ID) as UUID
+        dreamDetailViewModel.loadDream(dreamId)
     }
 
     //initialize view fields
@@ -43,6 +54,18 @@ class DreamFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dreamDetailViewModel.dreamLiveData.observe(
+            viewLifecycleOwner,
+            Observer { dream ->
+                dream?.let {
+                    this.dream = dream
+                    updateUI()
+                }
+            })
     }
 
     override fun onStart() {
@@ -77,6 +100,32 @@ class DreamFragment : Fragment() {
 
         isSolvedCheckBox.setOnCheckedChangeListener { _, isChecked ->
             dream.isDeferred = isChecked
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dreamDetailViewModel.saveDream(dream)
+    }
+
+    private fun updateUI() {
+        titleField.setText(dream.description)
+        dateButton.text = dream.dateRevealed.toString()
+        isSolvedCheckBox.apply {
+            isChecked = dream.isDeferred
+            jumpDrawablesToCurrentState()
+        }
+    }
+
+    companion object {
+
+        fun newInstance(dreamID: UUID): DreamFragment {
+            val args = Bundle().apply {
+                putSerializable(ARG_DREAM_ID, dreamID)
+            }
+            return DreamFragment().apply {
+                arguments = args
+            }
         }
     }
 }

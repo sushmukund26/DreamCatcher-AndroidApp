@@ -140,6 +140,15 @@ class DreamRepository private constructor(context: Context) {
     private val executor = Executors.newSingleThreadExecutor()
 
     fun getDreams(): LiveData<List<Dream>> = dreamDao.getDreams()
+    fun getDream(dreamID: UUID?): LiveData<Dream?>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun updateDream(dream: Dream) {
+        executor.execute {
+            dreamDao.updateDream(dream)
+        }
+    }
 
 //    fun getDreamWithEntries(dreamId: UUID): LiveData<DreamWithEntries> =
 //        dreamDao.getDreamWithEntries(dreamId)

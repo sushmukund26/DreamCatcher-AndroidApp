@@ -53,4 +53,7 @@ interface DreamDao {
     @Query("SELECT * FROM dream")
     fun getDreams(): LiveData<List<Dream>>
 
+    @Update
+    fun updateDream(dream: Dream)
+
 }
