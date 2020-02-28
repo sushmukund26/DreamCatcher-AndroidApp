@@ -21,8 +21,8 @@ class DreamFragment : Fragment() {
 
     private lateinit var dream: Dream
     private lateinit var titleField: EditText
-    private lateinit var dateButton: Button
-    private lateinit var isSolvedCheckBox: CheckBox
+    private lateinit var dreamRevealedButton: Button
+    private lateinit var isRealizedCheckBox: CheckBox
 
     private val dreamDetailViewModel: DreamDetailViewModel by lazy {
         ViewModelProviders.of(this).get(DreamDetailViewModel::class.java)
@@ -45,11 +45,10 @@ class DreamFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_dream, container, false)
 
         titleField = view.findViewById(R.id.dream_title)
-        dateButton = view.findViewById(R.id.dream_date)
-        isSolvedCheckBox = view.findViewById(R.id.dream_realized)
+        dreamRevealedButton = view.findViewById(R.id.dream_entry_0_button)
+        isRealizedCheckBox = view.findViewById(R.id.dream_realized)
 
-        dateButton.apply {
-            text = dream.dateRevealed.toString()
+        dreamRevealedButton.apply {
             isEnabled = false
         }
 
@@ -98,7 +97,7 @@ class DreamFragment : Fragment() {
 
         titleField.addTextChangedListener(titleWatcher)
 
-        isSolvedCheckBox.setOnCheckedChangeListener { _, isChecked ->
+        isRealizedCheckBox.setOnCheckedChangeListener { _, isChecked ->
             dream.isDeferred = isChecked
         }
     }
@@ -110,9 +109,9 @@ class DreamFragment : Fragment() {
 
     private fun updateUI() {
         titleField.setText(dream.description)
-        dateButton.text = dream.dateRevealed.toString()
-        isSolvedCheckBox.apply {
-            isChecked = dream.isDeferred
+//        dreamRevealedButton.text = dream.dateRevealed.toString()
+        isRealizedCheckBox.apply {
+            isChecked = dream.isRealized
             jumpDrawablesToCurrentState()
         }
     }

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/dream_title_label"
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/dream_title_label" />
 
     <CheckBox
         android:id="@+id/dream_realized"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/dream_title" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/dream_details_label"
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,13 +58,15 @@
         app:layout_constraintTop_toBottomOf="@+id/dream_deferred" />
 
     <Button
-        android:id="@+id/dream_date"
+        android:id="@+id/dream_entry_0_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/dream_entry_0_button_text"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:text="Wed Nov 14 11:56 EST 2018" />
+        app:layout_constraintTop_toBottomOf="@+id/dream_details_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,4 +7,5 @@
     <string name="dream_date">Dream Date</string>
     <string name="dream_realized_label">Realized</string>
     <string name="dream_deferred_label">Deferred</string>
+    <string name="dream_entry_0_button_text">Dream Revealed</string>
 </resources>
