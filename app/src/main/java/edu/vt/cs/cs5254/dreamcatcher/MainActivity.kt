@@ -2,10 +2,9 @@ package edu.vt.cs.cs5254.dreamcatcher
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import java.util.*
 
-private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity(), DreamListFragment.Callbacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +24,11 @@ class MainActivity : AppCompatActivity(), DreamListFragment.Callbacks {
     }
 
     override fun onDreamSelected(dreamId: UUID) {
-        Log.d(TAG, "MainActivity.onCrimeSelected: $dreamId")
+        val fragment = DreamFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
