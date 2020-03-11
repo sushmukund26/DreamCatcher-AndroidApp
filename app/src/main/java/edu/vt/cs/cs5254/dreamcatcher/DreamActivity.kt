@@ -5,7 +5,7 @@ import android.os.Bundle
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import java.util.*
 
-class MainActivity : AppCompatActivity(), DreamListFragment.Callbacks {
+class DreamActivity : AppCompatActivity(), DreamListFragment.Callbacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

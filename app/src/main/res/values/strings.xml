@@ -8,6 +8,10 @@
     <string name="dream_realized_label">Realized</string>
     <string name="dream_deferred_label">Deferred</string>
     <string name="dream_entry_0_button_text">Dream Revealed</string>
+    <string name="dream_entry_1_button_text">Dream Entry 1</string>
+    <string name="dream_entry_2_button_text">Dream Entry 2</string>
+    <string name="dream_entry_3_button_text">Dream Entry 3</string>
+    <string name="dream_entry_4_button_text">Dream Realized</string>
     <string name="dream_deferred_button_text">Dream Deferred</string>
     <string name="dream_realized_button_text">Dream Realized</string>
 </resources>

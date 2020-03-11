@@ -71,9 +71,49 @@
             android:id="@+id/dream_entry_0_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:background="@color/colorPrimary"
             android:clickable="false"
             android:text="@string/dream_entry_0_button_text"
+            android:textColor="@android:color/background_light" />
+
+        <Button
+            android:id="@+id/dream_entry_1_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@color/colorPrimary"
+            android:clickable="false"
+            tools:text="@string/dream_entry_1_button_text"
+            android:textColor="@android:color/background_light" />
+
+        <Button
+            android:id="@+id/dream_entry_2_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@color/colorPrimary"
+            android:clickable="false"
+            tools:text="@string/dream_entry_2_button_text"
+            android:textColor="@android:color/background_light" />
+
+        <Button
+            android:id="@+id/dream_entry_3_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@color/colorPrimary"
+            android:clickable="false"
+            tools:text="@string/dream_entry_3_button_text"
+            android:textColor="@android:color/background_light" />
+
+        <Button
+            android:id="@+id/dream_entry_4_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:clickable="false"
+            tools:text="@string/dream_entry_4_button_text"
             android:textColor="@android:color/background_light" />
     </LinearLayout>
 

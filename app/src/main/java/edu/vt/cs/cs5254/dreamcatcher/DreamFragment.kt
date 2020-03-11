@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import androidx.lifecycle.Observer
+import edu.vt.cs.cs5254.dreamcatcher.database.DreamWithEntries
 import java.util.*
 
 private const val ARG_DREAM_ID = "dream_id"
@@ -20,6 +21,7 @@ private const val ARG_DREAM_ID = "dream_id"
 class DreamFragment : Fragment() {
 
     private lateinit var dream: Dream
+    private lateinit var dreamWithEntries: DreamWithEntries
     private lateinit var titleField: EditText
     private lateinit var dreamRevealedButton: Button
     private lateinit var buttonsContainer: ViewGroup
@@ -63,6 +65,15 @@ class DreamFragment : Fragment() {
             Observer { dream ->
                 dream?.let {
                     this.dream = dream
+                    updateUI()
+                }
+            })
+
+        dreamDetailViewModel.dreamWithEntriesLiveData.observe(
+            viewLifecycleOwner,
+            Observer { dreamWithEntries ->
+                dreamWithEntries?.let {
+                    this.dreamWithEntries = dreamWithEntries
                     updateUI()
                 }
             })
@@ -130,6 +141,7 @@ class DreamFragment : Fragment() {
 
     private fun updateUI() {
         titleField.setText(dream.description)
+//        titleField.setText(dreamWithEntries.dreamEntries[0].comment)
 
         isRealizedCheckBox.apply {
             isChecked = dream.isRealized
@@ -139,6 +151,7 @@ class DreamFragment : Fragment() {
             isChecked = dream.isDeferred
             jumpDrawablesToCurrentState()
         }
+//        for (entry in dream.dreamEntry)
     }
 
     companion object {

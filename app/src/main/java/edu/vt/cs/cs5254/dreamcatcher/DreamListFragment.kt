@@ -84,7 +84,7 @@ class DreamListFragment : Fragment() {
         dreamRecyclerView.adapter = adapter
     }
 
-    private inner class DreamHolder(view: View)
+    inner class DreamHolder(view: View)
         : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         private lateinit var dream: Dream
@@ -101,10 +101,19 @@ class DreamListFragment : Fragment() {
             this.dream = dream
             titleTextView.text = this.dream.description
             dateTextView.text = this.dream.dateRevealed.toString()
-            dreamImageView.visibility = if (dream.isDeferred) {
-                View.VISIBLE
-            } else {
-                View.GONE
+            when {
+                dream.isDeferred -> {
+                    dreamImageView.setImageResource(R.drawable.dream_deferred_icon)
+                    dreamImageView.tag = R.drawable.dream_deferred_icon
+                }
+                dream.isRealized -> {
+                    dreamImageView.setImageResource(R.drawable.dream_realized_icon)
+                    dreamImageView.tag = R.drawable.dream_realized_icon
+                }
+                else -> {
+                    dreamImageView.setImageResource(0)
+                    dreamImageView.tag = 0
+                }
             }
         }
 

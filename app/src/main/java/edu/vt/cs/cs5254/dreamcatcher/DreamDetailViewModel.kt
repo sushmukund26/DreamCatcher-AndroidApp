@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
+import edu.vt.cs.cs5254.dreamcatcher.database.DreamWithEntries
 import java.util.*
 
 class DreamDetailViewModel : ViewModel() {
@@ -15,6 +16,11 @@ class DreamDetailViewModel : ViewModel() {
     var dreamLiveData: LiveData<Dream?> =
         Transformations.switchMap(dreamIdLiveData) { dreamID ->
             dreamRepository.getDream(dreamID)
+        }
+
+    var dreamWithEntriesLiveData: LiveData<DreamWithEntries?> =
+        Transformations.switchMap(dreamIdLiveData) { dreamID ->
+            dreamRepository.getDreamWithEntries(dreamID)
         }
 
     fun loadDream(dreamID: UUID) {

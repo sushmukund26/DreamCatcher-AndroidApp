@@ -1,13 +1,14 @@
 package edu.vt.cs.cs5254.dreamcatcher
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import edu.vt.cs.cs5254.dreamcatcher.database.*
-import edu.vt.cs.cs5254.dreamcatcher.database.DreamEntryKind.COMMENT
-import edu.vt.cs.cs5254.dreamcatcher.database.DreamEntryKind.REVEALED
+import edu.vt.cs.cs5254.dreamcatcher.database.Dream
+import edu.vt.cs.cs5254.dreamcatcher.database.DreamDatabase
+import edu.vt.cs.cs5254.dreamcatcher.database.DreamWithEntries
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -19,107 +20,10 @@ class DreamRepository private constructor(context: Context) {
         object : RoomDatabase.Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
+                Log.d(TAG, "repopulateRoomDatabaseCallback.onOpen")
                 executor.execute {
                     dreamDao.apply {
-                        deleteAllDreams()
-
-                        val dream0 = Dream(
-                            description = "My First Dream",
-                            isRealized = true
-                        )
-                        val dream0Entries = listOf(
-                            DreamEntry(
-                                dreamId = dream0.id,
-                                kind = REVEALED,
-                                comment = "Dream Revealed"
-                            ),
-                            DreamEntry(
-                                dreamId = dream0.id,
-                                kind = COMMENT,
-                                comment = "Comment 1"
-                            ),
-                            DreamEntry(
-                                dreamId = dream0.id,
-                                kind = COMMENT,
-                                comment = "Comment 2"
-                            ),
-                            DreamEntry(
-                                dreamId = dream0.id,
-                                kind = COMMENT,
-                                comment = "Comment 3"
-                            )
-                        )
-                        addDreamWithEntries(DreamWithEntries(dream0, dream0Entries))
-
-
-                        val dream1 = Dream(
-                            description = "My Second Dream",
-                            isDeferred = true
-                        )
-                        val dream1Entries = listOf(
-                            DreamEntry(
-                                dreamId = dream1.id,
-                                kind = REVEALED,
-                                comment = "Dream Revealed"
-                            ),
-                            DreamEntry(
-                                dreamId = dream1.id,
-                                kind = COMMENT,
-                                comment = "Comment 1"
-                            ),
-                            DreamEntry(
-                                dreamId = dream1.id,
-                                kind = COMMENT,
-                                comment = "Comment 2"
-                            ),
-                            DreamEntry(
-                                dreamId = dream1.id,
-                                kind = DreamEntryKind.DEFERRED,
-                                comment = "Dream Deferred"
-                            ),
-                            DreamEntry(
-                                dreamId = dream1.id,
-                                kind = COMMENT,
-                                comment = "Comment 3"
-                            )
-                        )
-                        addDreamWithEntries(DreamWithEntries(dream1, dream1Entries))
-
-
-                        val dream2 =
-                            Dream(description = "My Third Dream")
-                        val dream2Entries = listOf(
-                            DreamEntry(
-                                dreamId = dream2.id,
-                                kind = REVEALED,
-                                comment = "Dream Revealed"
-                            ),
-                            DreamEntry(
-                                dreamId = dream2.id,
-                                kind = COMMENT,
-                                comment = "Comment 1"
-                            ),
-                            DreamEntry(
-                                dreamId = dream2.id,
-                                kind = COMMENT,
-                                comment = "Comment 2"
-                            )
-                        )
-                        addDreamWithEntries(DreamWithEntries(dream2, dream2Entries))
-
-                        for (i in 3..20) {
-                            val dream =
-                                Dream(description = "Dream $i")
-                            val entries = listOf(
-                                DreamEntry(
-                                    dreamId = dream.id,
-                                    kind = REVEALED,
-                                    comment = "Dream Revealed"
-                                )
-                            )
-                            addDreamWithEntries(DreamWithEntries(dream, entries))
-                        }
-
+                        reconstructSampleDatabase()
                     }
                 }
             }
@@ -135,16 +39,10 @@ class DreamRepository private constructor(context: Context) {
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    fun getDreams(): LiveData<List<Dream>> = dreamDao.getDreams()
-
-    fun updateDream(dream: Dream) {
-        executor.execute {
-            dreamDao.updateDream(dream)
-        }
-    }
-
     fun getDream(dreamId: UUID): LiveData<Dream> =
         dreamDao.getDream(dreamId)
+
+    fun getDreams(): LiveData<List<Dream>> = dreamDao.getDreams()
 
     fun getDreamWithEntries(dreamId: UUID): LiveData<DreamWithEntries> =
         dreamDao.getDreamWithEntries(dreamId)
@@ -155,7 +53,17 @@ class DreamRepository private constructor(context: Context) {
         }
     }
 
+    fun updateDream(dream: Dream) {
+        executor.execute {
+            dreamDao.updateDream(dream)
+        }
+    }
+
+    fun reconstructSampleDatabase() = dreamDao.reconstructSampleDatabase()
+
     companion object {
+        private const val TAG = "DreamRepository"
+
         private var INSTANCE: DreamRepository? = null
 
         fun initialize(context: Context) {
