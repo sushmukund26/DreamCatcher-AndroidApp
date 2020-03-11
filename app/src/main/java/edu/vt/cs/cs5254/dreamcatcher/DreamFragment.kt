@@ -1,10 +1,16 @@
 package edu.vt.cs.cs5254.dreamcatcher
 
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.Color.*
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
@@ -23,8 +29,10 @@ class DreamFragment : Fragment() {
     private lateinit var dream: Dream
     private lateinit var dreamWithEntries: DreamWithEntries
     private lateinit var titleField: EditText
-    private lateinit var dreamRevealedButton: Button
-    private lateinit var buttonsContainer: ViewGroup
+    private lateinit var dreamStatusButton: Button
+    private lateinit var dreamEntry1Button: Button
+    private lateinit var dreamEntry2Button: Button
+    private lateinit var dreamEntry3Button: Button
 
     private lateinit var isRealizedCheckBox: CheckBox
     private lateinit var isDeferredCheckBox: CheckBox
@@ -50,10 +58,12 @@ class DreamFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_dream, container, false)
 
         titleField = view.findViewById(R.id.dream_title)
-        dreamRevealedButton = view.findViewById(R.id.dream_entry_0_button)
+        dreamEntry1Button = view.findViewById(R.id.dream_entry_1_button)
+        dreamEntry2Button = view.findViewById(R.id.dream_entry_2_button)
+        dreamEntry3Button = view.findViewById(R.id.dream_entry_3_button)
+        dreamStatusButton = view.findViewById(R.id.dream_entry_4_button)
         isRealizedCheckBox = view.findViewById(R.id.dream_realized)
         isDeferredCheckBox = view.findViewById(R.id.dream_deferred)
-        buttonsContainer = view.findViewById(R.id.buttonsContainer)
 
         return view
     }
@@ -113,11 +123,11 @@ class DreamFragment : Fragment() {
             dream.isRealized = isChecked
             isDeferredCheckBox.isEnabled = !isChecked
             if(isChecked) {
-                val button = Button(activity)
-                button.text = getString(R.string.dream_realized_button_text)
-                buttonsContainer.addView(button)
+                dreamStatusButton.visibility = VISIBLE
+                dreamStatusButton.background.setTint(GRAY)
+                dreamStatusButton.text = getString(R.string.dream_realized_button_text)
             } else {
-                buttonsContainer.removeViewAt(buttonsContainer.childCount-1)
+                dreamStatusButton.visibility = INVISIBLE
             }
         }
 
@@ -125,11 +135,11 @@ class DreamFragment : Fragment() {
             dream.isDeferred = isChecked
             isRealizedCheckBox.isEnabled = !isChecked
             if(isChecked) {
-                val button = Button(activity)
-                button.text = getString(R.string.dream_deferred_button_text)
-                buttonsContainer.addView(button)
+                dreamStatusButton.visibility = VISIBLE
+                dreamStatusButton.background.setTint(RED)
+                dreamStatusButton.text = getString(R.string.dream_deferred_button_text)
             } else {
-                buttonsContainer.removeViewAt(buttonsContainer.childCount-1)
+                dreamStatusButton.visibility = INVISIBLE
             }
         }
     }
@@ -141,7 +151,9 @@ class DreamFragment : Fragment() {
 
     private fun updateUI() {
         titleField.setText(dream.description)
-//        titleField.setText(dreamWithEntries.dreamEntries[0].comment)
+        if(dreamWithEntries.dreamEntries.isNotEmpty()) {
+            dreamEntry1Button.text = dreamWithEntries.dreamEntries[0].comment
+        }
 
         isRealizedCheckBox.apply {
             isChecked = dream.isRealized
@@ -151,6 +163,8 @@ class DreamFragment : Fragment() {
             isChecked = dream.isDeferred
             jumpDrawablesToCurrentState()
         }
+
+        dreamStatusButton.visibility = if (dream.isRealized || dream.isDeferred) VISIBLE else INVISIBLE
 //        for (entry in dream.dreamEntry)
     }
 
