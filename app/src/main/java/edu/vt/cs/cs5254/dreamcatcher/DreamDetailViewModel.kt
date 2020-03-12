@@ -30,4 +30,8 @@ class DreamDetailViewModel : ViewModel() {
     fun saveDream(dream: Dream) {
         dreamRepository.updateDream(dream)
     }
+
+    fun saveDreamWithEntries(dreamWithEntries: DreamWithEntries) {
+        dreamRepository.updateDreamWithEntries(dreamWithEntries)
+    }
 }

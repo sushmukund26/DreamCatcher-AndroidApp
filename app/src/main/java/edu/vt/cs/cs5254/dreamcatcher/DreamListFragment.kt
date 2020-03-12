@@ -2,6 +2,7 @@ package edu.vt.cs.cs5254.dreamcatcher
 
 import android.content.Context
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
@@ -33,7 +34,7 @@ class DreamListFragment : Fragment() {
     private var adapter: DreamAdapter? = null
 
     private val dreamListViewModel: DreamListViewModel by lazy {
-        ViewModelProviders.of(this).get(DreamListViewModel::class.java)
+        ViewModelProvider(this).get(DreamListViewModel::class.java)
     }
 
     override fun onAttach(context: Context) {
@@ -100,7 +101,9 @@ class DreamListFragment : Fragment() {
         fun bind(dream: Dream) {
             this.dream = dream
             titleTextView.text = this.dream.description
-            dateTextView.text = this.dream.dateRevealed.toString()
+            val df = DateFormat.getMediumDateFormat(activity)
+            val date = df.format(this.dream.dateRevealed)
+            dateTextView.text = date
             when {
                 dream.isDeferred -> {
                     dreamImageView.setImageResource(R.drawable.dream_deferred_icon)

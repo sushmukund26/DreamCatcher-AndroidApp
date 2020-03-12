@@ -84,7 +84,7 @@ class BaseDreamCatcherP1Test {
                 matches(
                     atPosition(
                         1,
-                        hasDescendant(withTagValue(`is`(R.drawable.dream_realized_icon)))
+                        hasDescendant(withTagValue(`is`(R.drawable.dream_deferred_icon)))
                     )
                 )
             )
