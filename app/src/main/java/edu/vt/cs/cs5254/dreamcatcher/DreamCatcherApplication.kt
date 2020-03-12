@@ -2,7 +2,7 @@ package edu.vt.cs.cs5254.dreamcatcher
 
 import android.app.Application
 
-class DreamIntentApplication : Application() {
+class DreamCatcherApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

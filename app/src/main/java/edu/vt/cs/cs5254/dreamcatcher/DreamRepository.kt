@@ -39,9 +39,6 @@ class DreamRepository private constructor(context: Context) {
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    fun getDream(dreamId: UUID): LiveData<Dream> =
-        dreamDao.getDream(dreamId)
-
     fun getDreams(): LiveData<List<Dream>> = dreamDao.getDreams()
 
     fun getDreamWithEntries(dreamId: UUID): LiveData<DreamWithEntries> =
@@ -50,12 +47,6 @@ class DreamRepository private constructor(context: Context) {
     fun updateDreamWithEntries(dreamWithEntries: DreamWithEntries) {
         executor.execute {
             dreamDao.updateDreamWithEntries(dreamWithEntries)
-        }
-    }
-
-    fun updateDream(dream: Dream) {
-        executor.execute {
-            dreamDao.updateDream(dream)
         }
     }
 

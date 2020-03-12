@@ -2,14 +2,13 @@ package edu.vt.cs.cs5254.dreamcatcher
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import java.util.*
 
 class DreamActivity : AppCompatActivity(), DreamListFragment.Callbacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_dream)
 
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container)

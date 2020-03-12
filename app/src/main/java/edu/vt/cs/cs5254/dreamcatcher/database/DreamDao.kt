@@ -8,12 +8,12 @@ import java.util.*
 interface DreamDao {
 
     // Dream methods
+    @Insert
+    fun addDream(dream: Dream)
+
     @Transaction
     @Query("SELECT * FROM dream WHERE id=(:dreamId)")
     fun getDream(dreamId: UUID): LiveData<Dream>
-
-    @Insert
-    fun addDream(dream: Dream)
 
     @Query("SELECT * FROM dream")
     fun getDreams(): LiveData<List<Dream>>
@@ -31,7 +31,6 @@ interface DreamDao {
 
 
     // Combined methods
-
     @Transaction
     @Query("SELECT * FROM dream WHERE id=(:dreamId)")
     fun getDreamWithEntries(dreamId: UUID): LiveData<DreamWithEntries>
