@@ -1,13 +1,12 @@
 package edu.vt.cs.cs5254.dreamcatcher
 
-import android.graphics.Color.*
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
@@ -24,6 +23,7 @@ import java.util.*
 
 private const val ARG_DREAM_ID = "dream_id"
 
+@Suppress("DEPRECATION")
 class DreamFragment : Fragment() {
 
     private lateinit var dream: Dream
@@ -162,26 +162,36 @@ class DreamFragment : Fragment() {
     }
 
     private fun updateButtons() {
+
+        //make all the buttons invisible initially
         for(button in buttons) {
-            button.visibility = INVISIBLE
+            button.visibility = GONE
         }
 
+        //iterate over dreamEntry, button pairs and make buttons visible
         for((dreamEntry, button) in dreamEntries.zip(buttons)) {
             button.visibility = VISIBLE
-            button.text = if(dreamEntry.kind == DreamEntryKind.COMMENT) {
-                button.background.setTint(resources.getColor(R.color.colorAccent))
-                val df = DateFormat.getMediumDateFormat(activity)
-                val commentDate = df.format(dreamEntry.dateCreated)
-                dreamEntry.comment + " (" + commentDate + ")"
-            } else if(dreamEntry.kind == DreamEntryKind.DEFERRED) {
-                button.background.setTint(resources.getColor(R.color.red))
-                dreamEntry.comment
-            } else if(dreamEntry.kind == DreamEntryKind.REALIZED) {
-                button.background.setTint(resources.getColor(R.color.green))
-                dreamEntry.comment
-            } else {
-                button.background.setTint(resources.getColor(R.color.colorPrimary))
-                dreamEntry.comment
+
+            button.text = when {
+                dreamEntry.kind == DreamEntryKind.COMMENT -> {
+                    button.background.setTint(resources.getColor(R.color.colorAccent))
+                    val df = DateFormat.getMediumDateFormat(activity)
+                    val commentDate = df.format(dreamEntry.dateCreated)
+                    dreamEntry.comment + " (" + commentDate + ")"
+                }
+                dreamEntry.kind == DreamEntryKind.DEFERRED -> {
+                    button.background.setTint(resources.getColor(R.color.red))
+                    dreamEntry.comment
+                }
+                dreamEntry.kind == DreamEntryKind.REALIZED -> {
+                    button.background.setTint(resources.getColor(R.color.green))
+                    dreamEntry.comment
+                }
+                else -> {
+                    //dream revealed button
+                    button.background.setTint(resources.getColor(R.color.colorPrimary))
+                    dreamEntry.comment
+                }
             }
 
         }
