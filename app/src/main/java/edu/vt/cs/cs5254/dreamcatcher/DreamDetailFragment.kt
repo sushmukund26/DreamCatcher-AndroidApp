@@ -1,5 +1,7 @@
 package edu.vt.cs.cs5254.dreamcatcher
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -122,9 +124,10 @@ class DreamFragment : Fragment() {
         isRealizedCheckBox.setOnCheckedChangeListener { _, isChecked ->
             dream.isRealized = isChecked
             isDeferredCheckBox.isEnabled = !isChecked
+
             //add or remove dreamEntry
             dreamEntries = if(isChecked) {
-                if(dreamEntries.filter { dE -> dE.kind == DreamEntryKind.REALIZED }.isEmpty()) {
+                if(dreamEntries.none { dE -> dE.kind == DreamEntryKind.REALIZED }) {
                     var dreamEntry = DreamEntry(
                         dreamId = dream.id,
                         kind = DreamEntryKind.REALIZED,
@@ -135,8 +138,9 @@ class DreamFragment : Fragment() {
                     dreamEntries
                 }
             } else {
-                dreamEntries.dropLast(1)
+                dreamEntries.filterNot { dE -> dE.kind == DreamEntryKind.REALIZED }
             }
+
             updateButtons()
         }
 
@@ -144,7 +148,7 @@ class DreamFragment : Fragment() {
             dream.isDeferred = isChecked
             isRealizedCheckBox.isEnabled = !isChecked
             dreamEntries = if(isChecked) {
-                if(dreamEntries.filter { dE -> dE.kind == DreamEntryKind.DEFERRED }.isEmpty()) {
+                if(dreamEntries.none { dE -> dE.kind == DreamEntryKind.DEFERRED }) {
                     var dreamEntry = DreamEntry(
                         dreamId = dream.id,
                         kind = DreamEntryKind.DEFERRED,
@@ -155,7 +159,7 @@ class DreamFragment : Fragment() {
                     dreamEntries
                 }
             } else {
-                dreamEntries.dropLast(1)
+                dreamEntries.filterNot { dE -> dE.kind == DreamEntryKind.DEFERRED }
             }
             updateButtons()
         }
@@ -172,29 +176,37 @@ class DreamFragment : Fragment() {
         for((dreamEntry, button) in dreamEntries.zip(buttons)) {
             button.visibility = VISIBLE
 
+            //configure text and button styles
             button.text = when {
                 dreamEntry.kind == DreamEntryKind.COMMENT -> {
-                    button.background.setTint(resources.getColor(R.color.colorAccent))
+                    setButtonColor(button, R.color.colorAccent)
+
                     val df = DateFormat.getMediumDateFormat(activity)
                     val commentDate = df.format(dreamEntry.dateCreated)
                     dreamEntry.comment + " (" + commentDate + ")"
                 }
                 dreamEntry.kind == DreamEntryKind.DEFERRED -> {
-                    button.background.setTint(resources.getColor(R.color.red))
+                    setButtonColor(button, R.color.red)
                     dreamEntry.comment
                 }
                 dreamEntry.kind == DreamEntryKind.REALIZED -> {
-                    button.background.setTint(resources.getColor(R.color.green))
+                    setButtonColor(button, R.color.green)
                     dreamEntry.comment
                 }
                 else -> {
                     //dream revealed button
-                    button.background.setTint(resources.getColor(R.color.colorPrimary))
+                    setButtonColor(button, R.color.colorPrimary)
                     dreamEntry.comment
                 }
             }
-
         }
+    }
+
+    private fun setButtonColor(button: Button, color: Int) {
+        button.backgroundTintList =
+            ColorStateList.valueOf(resources.getColor(color))
+        button.setTextColor(Color.WHITE)
+        button.alpha = 1f
     }
 
     override fun onStop() {
