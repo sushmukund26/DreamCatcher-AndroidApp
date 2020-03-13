@@ -179,7 +179,7 @@ class DreamFragment : Fragment() {
             //configure text and button styles
             button.text = when {
                 dreamEntry.kind == DreamEntryKind.COMMENT -> {
-                    setButtonColor(button, R.color.colorAccent)
+                    setButtonColor(button, R.color.colorAccent, R.color.primary_text)
 
                     val df = DateFormat.getMediumDateFormat(activity)
                     val commentDate = df.format(dreamEntry.dateCreated)
@@ -202,10 +202,10 @@ class DreamFragment : Fragment() {
         }
     }
 
-    private fun setButtonColor(button: Button, color: Int) {
+    private fun setButtonColor(button: Button, color: Int, textColor: Int = R.color.text_color) {
         button.backgroundTintList =
             ColorStateList.valueOf(resources.getColor(color))
-        button.setTextColor(Color.WHITE)
+        button.setTextColor(resources.getColor(textColor))
         button.alpha = 1f
     }
 
