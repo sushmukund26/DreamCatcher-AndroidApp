@@ -7,9 +7,10 @@ import android.text.TextWatcher
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -30,19 +31,11 @@ class DreamFragment : Fragment() {
     private lateinit var dreamEntries: List<DreamEntry>
     private lateinit var titleField: EditText
 
-    private lateinit var dreamEntryRecyclerView: RecyclerView
-    private var adapter: DreamEntryAdapter? = null
-
-//    private lateinit var buttons: List<Button>
-//
-//    private lateinit var dreamEntry0Button: Button
-//    private lateinit var dreamEntry1Button: Button
-//    private lateinit var dreamEntry2Button: Button
-//    private lateinit var dreamEntry3Button: Button
-//    private lateinit var dreamEntry4Button: Button
-
     private lateinit var isRealizedCheckBox: CheckBox
     private lateinit var isDeferredCheckBox: CheckBox
+
+    private lateinit var dreamEntryRecyclerView: RecyclerView
+    private var adapter: DreamEntryAdapter? = null
 
     private val dreamDetailViewModel: DreamDetailViewModel by lazy {
         ViewModelProvider(this).get(DreamDetailViewModel::class.java)
@@ -66,13 +59,7 @@ class DreamFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_dream, container, false)
 
         titleField = view.findViewById(R.id.dream_title)
-//        dreamEntry0Button = view.findViewById(R.id.dream_entry_0_button)
-//        dreamEntry1Button = view.findViewById(R.id.dream_entry_1_button)
-//        dreamEntry2Button = view.findViewById(R.id.dream_entry_2_button)
-//        dreamEntry3Button = view.findViewById(R.id.dream_entry_3_button)
-//        dreamEntry4Button = view.findViewById(R.id.dream_entry_4_button)
 
-//        buttons = listOf(dreamEntry0Button, dreamEntry1Button, dreamEntry2Button, dreamEntry3Button, dreamEntry4Button)
         isRealizedCheckBox = view.findViewById(R.id.dream_realized)
         isDeferredCheckBox = view.findViewById(R.id.dream_deferred)
 
@@ -146,7 +133,7 @@ class DreamFragment : Fragment() {
                 dreamEntries.filterNot { dE -> dE.kind == DreamEntryKind.REALIZED }
             }
 
-//            updateButtons()
+            updateDreamEntryButtons()
         }
 
         isDeferredCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -166,46 +153,9 @@ class DreamFragment : Fragment() {
             } else {
                 dreamEntries.filterNot { dE -> dE.kind == DreamEntryKind.DEFERRED }
             }
-//            updateButtons()
+            updateDreamEntryButtons()
         }
     }
-
-//    private fun updateButtons() {
-//
-//        //make all the buttons invisible initially
-//        for(button in buttons) {
-//            button.visibility = GONE
-//        }
-//
-//        //iterate over dreamEntry, button pairs and make buttons visible
-//        for((dreamEntry, button) in dreamEntries.zip(buttons)) {
-//            button.visibility = VISIBLE
-//
-//            //configure text and button styles
-//            button.text = when {
-//                dreamEntry.kind == DreamEntryKind.COMMENT -> {
-//                    setButtonColor(button, R.color.colorAccent, R.color.primary_text)
-//
-//                    val df = DateFormat.getMediumDateFormat(activity)
-//                    val commentDate = df.format(dreamEntry.dateCreated)
-//                    dreamEntry.comment + " (" + commentDate + ")"
-//                }
-//                dreamEntry.kind == DreamEntryKind.DEFERRED -> {
-//                    setButtonColor(button, R.color.red)
-//                    dreamEntry.comment
-//                }
-//                dreamEntry.kind == DreamEntryKind.REALIZED -> {
-//                    setButtonColor(button, R.color.green)
-//                    dreamEntry.comment
-//                }
-//                else -> {
-//                    //dream revealed button
-//                    setButtonColor(button, R.color.colorPrimary)
-//                    dreamEntry.comment
-//                }
-//            }
-//        }
-//    }
 
     private fun setButtonColor(button: Button, color: Int, textColor: Int = R.color.text_color) {
         button.backgroundTintList =
@@ -232,6 +182,10 @@ class DreamFragment : Fragment() {
             jumpDrawablesToCurrentState()
         }
 
+        updateDreamEntryButtons()
+    }
+
+    private fun updateDreamEntryButtons() {
         adapter = DreamEntryAdapter(dreamEntries)
         dreamEntryRecyclerView.adapter = adapter
     }
