@@ -23,7 +23,7 @@ class DreamActivity : AppCompatActivity(), DreamListFragment.Callbacks {
     }
 
     override fun onDreamSelected(dreamID: UUID) {
-        val fragment = DreamFragment.newInstance(dreamID)
+        val fragment = DreamDetailFragment.newInstance(dreamID)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)

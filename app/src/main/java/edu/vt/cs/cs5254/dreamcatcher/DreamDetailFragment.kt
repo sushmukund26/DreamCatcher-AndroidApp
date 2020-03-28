@@ -28,7 +28,7 @@ private const val DIALOG_ADD_DREAM_ENTRY = "DialogAddDreamEntry"
 private const val REQUEST_DREAM_ENTRY = 0
 
 @Suppress("DEPRECATION")
-class DreamFragment : Fragment(), AddDreamEntryFragment.Callbacks {
+class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
 
     private lateinit var dream: Dream
     private lateinit var dreamEntries: List<DreamEntry>
@@ -61,7 +61,7 @@ class DreamFragment : Fragment(), AddDreamEntryFragment.Callbacks {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_dream, container, false)
+        val view = inflater.inflate(R.layout.fragment_dream_detail, container, false)
 
         titleField = view.findViewById(R.id.dream_title)
 
@@ -165,8 +165,8 @@ class DreamFragment : Fragment(), AddDreamEntryFragment.Callbacks {
 
         addDreamEntryButton.setOnClickListener {
             AddDreamEntryFragment().apply {
-                setTargetFragment(this@DreamFragment, REQUEST_DREAM_ENTRY)
-                show(this@DreamFragment.requireFragmentManager(), DIALOG_ADD_DREAM_ENTRY)
+                setTargetFragment(this@DreamDetailFragment, REQUEST_DREAM_ENTRY)
+                show(this@DreamDetailFragment.requireFragmentManager(), DIALOG_ADD_DREAM_ENTRY)
             }
         }
     }
@@ -216,11 +216,11 @@ class DreamFragment : Fragment(), AddDreamEntryFragment.Callbacks {
 
     companion object {
 
-        fun newInstance(dreamID: UUID): DreamFragment {
+        fun newInstance(dreamID: UUID): DreamDetailFragment {
             val args = Bundle().apply {
                 putSerializable(ARG_DREAM_ID, dreamID)
             }
-            return DreamFragment().apply {
+            return DreamDetailFragment().apply {
                 arguments = args
             }
         }
