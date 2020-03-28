@@ -25,9 +25,10 @@ import java.util.*
 
 private const val ARG_DREAM_ID = "dream_id"
 private const val DIALOG_ADD_DREAM_ENTRY = "DialogAddDreamEntry"
+private const val REQUEST_DREAM_ENTRY = 0
 
 @Suppress("DEPRECATION")
-class DreamFragment : Fragment() {
+class DreamFragment : Fragment(), AddDreamEntryFragment.Callbacks {
 
     private lateinit var dream: Dream
     private lateinit var dreamEntries: List<DreamEntry>
@@ -164,6 +165,7 @@ class DreamFragment : Fragment() {
 
         addDreamEntryButton.setOnClickListener {
             AddDreamEntryFragment().apply {
+                setTargetFragment(this@DreamFragment, REQUEST_DREAM_ENTRY)
                 show(this@DreamFragment.requireFragmentManager(), DIALOG_ADD_DREAM_ENTRY)
             }
         }
@@ -180,6 +182,16 @@ class DreamFragment : Fragment() {
         super.onStop()
         var dreamWithEntries = DreamWithEntries(dream, dreamEntries)
         dreamDetailViewModel.saveDreamWithEntries(dreamWithEntries)
+    }
+
+    override fun onCommentProvided(comment: String) {
+        var dreamEntry = DreamEntry(
+            dreamId = dream.id,
+            kind = DreamEntryKind.COMMENT,
+            comment = comment
+        )
+        dreamEntries += dreamEntry
+        updateUI()
     }
 
     private fun updateUI() {
