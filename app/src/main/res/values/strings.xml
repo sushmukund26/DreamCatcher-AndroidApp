@@ -15,4 +15,6 @@
     <string name="dream_deferred_button_text">Dream Deferred</string>
     <string name="dream_realized_button_text">Dream Realized</string>
     <string name="dream_icon">Dream icon</string>
+
+    <string name="new_dream">New Dream</string>
 </resources>
