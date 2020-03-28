@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import edu.vt.cs.cs5254.dreamcatcher.database.DreamEntry
 import edu.vt.cs.cs5254.dreamcatcher.database.DreamEntryKind
@@ -23,6 +24,7 @@ import edu.vt.cs.cs5254.dreamcatcher.database.DreamWithEntries
 import java.util.*
 
 private const val ARG_DREAM_ID = "dream_id"
+private const val DIALOG_ADD_DREAM_ENTRY = "DialogAddDreamEntry"
 
 @Suppress("DEPRECATION")
 class DreamFragment : Fragment() {
@@ -36,6 +38,8 @@ class DreamFragment : Fragment() {
 
     private lateinit var dreamEntryRecyclerView: RecyclerView
     private var adapter: DreamEntryAdapter? = null
+
+    private lateinit var addDreamEntryButton: FloatingActionButton
 
     private val dreamDetailViewModel: DreamDetailViewModel by lazy {
         ViewModelProvider(this).get(DreamDetailViewModel::class.java)
@@ -66,6 +70,8 @@ class DreamFragment : Fragment() {
         dreamEntryRecyclerView =
             view.findViewById(R.id.dream_entry_recycler_view) as RecyclerView
         dreamEntryRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        addDreamEntryButton = view.findViewById(R.id.add_comment_fab)
 
         return view
     }
@@ -154,6 +160,12 @@ class DreamFragment : Fragment() {
                 dreamEntries.filterNot { dE -> dE.kind == DreamEntryKind.DEFERRED }
             }
             updateDreamEntryButtons()
+        }
+
+        addDreamEntryButton.setOnClickListener {
+            AddDreamEntryFragment().apply {
+                show(this@DreamFragment.requireFragmentManager(), DIALOG_ADD_DREAM_ENTRY)
+            }
         }
     }
 

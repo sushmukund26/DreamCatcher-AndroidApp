@@ -17,4 +17,5 @@
     <string name="dream_icon">Dream icon</string>
 
     <string name="new_dream">New Dream</string>
+    <string name="new_comment_placeholder">Enter a new comment</string>
 </resources>
