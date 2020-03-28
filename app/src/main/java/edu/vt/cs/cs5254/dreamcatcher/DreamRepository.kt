@@ -50,9 +50,9 @@ class DreamRepository private constructor(context: Context) {
         }
     }
 
-    fun addDream(dream: Dream) {
+    fun addDreamWithEntries(dreamWithEntries: DreamWithEntries) {
         executor.execute {
-            dreamDao.addDream(dream)
+            dreamDao.addDreamWithEntries(dreamWithEntries)
         }
     }
 
