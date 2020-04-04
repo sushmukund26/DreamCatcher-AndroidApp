@@ -1,17 +1,17 @@
 package edu.vt.cs.cs5254.dreamcatcher
 
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +22,8 @@ import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import edu.vt.cs.cs5254.dreamcatcher.database.DreamEntry
 import edu.vt.cs.cs5254.dreamcatcher.database.DreamEntryKind
 import edu.vt.cs.cs5254.dreamcatcher.database.DreamWithEntries
+import edu.vt.cs.cs5254.dreamcatcher.util.CameraUtil
+import java.io.File
 import java.util.*
 
 private const val ARG_DREAM_ID = "dream_id"
@@ -33,6 +35,8 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
 
     private lateinit var dream: Dream
     private lateinit var dreamEntries: List<DreamEntry>
+    private lateinit var photoFile: File
+
     private lateinit var titleField: EditText
 
     private lateinit var isRealizedCheckBox: CheckBox
@@ -42,6 +46,8 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
     private var adapter: DreamEntryAdapter? = null
 
     private lateinit var photoView: ImageView
+    private lateinit var photoUri: Uri
+
     private lateinit var addDreamEntryButton: FloatingActionButton
 
     private val dreamDetailViewModel: DreamDetailViewModel by lazy {
@@ -51,6 +57,7 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
     //initialize model fields
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         dream = Dream()
         dreamEntries = listOf()
         val dreamId: UUID = arguments?.getSerializable(ARG_DREAM_ID) as UUID
@@ -88,6 +95,10 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
                 dream?.let {
                     this.dream = dream.dream
                     this.dreamEntries = dream.dreamEntries
+                    photoFile = dreamDetailViewModel.getPhotoFile(dream.dream)
+                    photoUri = FileProvider.getUriForFile(requireActivity(),
+                        "edu.vt.cs.cs5254.dreamcatcher",
+                        photoFile)
                     updateUI()
                 }
             })
@@ -175,6 +186,28 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_dream_detail, menu)
+        val cameraAvailable = CameraUtil.isCameraAvailable(requireActivity())
+        val menuItem = menu.findItem(R.id.take_dream_photo)
+        menuItem.apply {
+            isEnabled = cameraAvailable
+            isVisible = cameraAvailable
+        }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.take_dream_photo -> {
+                val captureImageIntent =
+                    CameraUtil.createCaptureImageIntent(requireActivity(), photoUri)
+                startActivity(captureImageIntent)
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun setButtonColor(button: Button, color: Int, textColor: Int = R.color.text_color) {
         button.backgroundTintList =
             ColorStateList.valueOf(resources.getColor(color))
@@ -211,11 +244,21 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
         }
 
         updateDreamEntryButtons()
+        updatePhotoView()
     }
 
     private fun updateDreamEntryButtons() {
         adapter = DreamEntryAdapter(dreamEntries)
         dreamEntryRecyclerView.adapter = adapter
+    }
+
+    private fun updatePhotoView() {
+        if (photoFile.exists()) {
+            val bitmap = CameraUtil.getScaledBitmap(photoFile.path, requireActivity())
+            photoView.setImageBitmap(bitmap)
+        } else {
+            photoView.setImageDrawable(null)
+        }
     }
 
     companion object {
