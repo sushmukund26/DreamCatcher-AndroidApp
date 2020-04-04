@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -40,6 +41,7 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
     private lateinit var dreamEntryRecyclerView: RecyclerView
     private var adapter: DreamEntryAdapter? = null
 
+    private lateinit var photoView: ImageView
     private lateinit var addDreamEntryButton: FloatingActionButton
 
     private val dreamDetailViewModel: DreamDetailViewModel by lazy {
@@ -72,6 +74,7 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
             view.findViewById(R.id.dream_entry_recycler_view) as RecyclerView
         dreamEntryRecyclerView.layoutManager = LinearLayoutManager(context)
 
+        photoView = view.findViewById(R.id.dream_photo) as ImageView
         addDreamEntryButton = view.findViewById(R.id.add_comment_fab)
 
         return view
