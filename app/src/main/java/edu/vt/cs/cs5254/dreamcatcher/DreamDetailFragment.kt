@@ -123,6 +123,7 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
         isRealizedCheckBox.setOnCheckedChangeListener { _, isChecked ->
             dream.isRealized = isChecked
             isDeferredCheckBox.isEnabled = !isChecked
+            addDreamEntryButton.isEnabled = !isChecked
 
             //add or remove dreamEntry
             dreamEntries = if(isChecked) {
