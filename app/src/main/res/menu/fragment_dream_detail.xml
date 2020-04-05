@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_camera_white"
         android:title="@string/dream_photo_desc"
         app:showAsAction="ifRoom|withText"/>
+    <item
+        android:id="@+id/share_dream"
+        android:icon="@drawable/ic_share_white"
+        android:title="@string/share_dream_desc"
+        app:showAsAction="ifRoom|withText"/>
 </menu>

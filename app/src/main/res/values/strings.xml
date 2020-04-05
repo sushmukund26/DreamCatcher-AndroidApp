@@ -16,7 +16,14 @@
     <string name="dream_realized_button_text">Dream Realized</string>
     <string name="dream_icon">Dream icon</string>
     <string name="dream_photo_desc">Dream photo</string>
+    <string name="share_dream_desc">Share dream</string>
 
     <string name="new_dream">New Dream</string>
     <string name="new_comment_placeholder">Enter a new comment</string>
+
+    <string name="dream_summary"># %1$s
+      %2$s
+    </string>
+    <string name="dream_summary_subject">Dream Summary</string>
+    <string name="send_summary">Send dream summary via</string>
 </resources>

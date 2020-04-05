@@ -1,5 +1,6 @@
 package edu.vt.cs.cs5254.dreamcatcher
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
@@ -204,6 +205,20 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
                 startActivity(captureImageIntent)
                 true
             }
+            R.id.share_dream -> {
+                Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, getDreamSummary())
+                    putExtra(
+                        Intent.EXTRA_SUBJECT,
+                        getString(R.string.dream_summary_subject))
+                }.also { intent ->
+                    val chooserIntent =
+                        Intent.createChooser(intent, getString(R.string.send_summary))
+                    startActivity(chooserIntent)
+                }
+                true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -229,6 +244,19 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
         )
         dreamEntries += dreamEntry
         updateUI()
+    }
+
+    private fun getDreamSummary(): String {
+        var entries = "\n"
+        for(entry in dreamEntries) {
+            val df = DateFormat.getMediumDateFormat(activity)
+            val commentDate = df.format(entry.dateCreated)
+            entries += entry.comment + " (" + commentDate + ")\n"
+        }
+
+
+        return getString(R.string.dream_summary,
+            dream.description, entries)
     }
 
     private fun updateUI() {
