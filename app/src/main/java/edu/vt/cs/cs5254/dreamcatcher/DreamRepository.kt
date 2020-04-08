@@ -59,9 +59,16 @@ class DreamRepository private constructor(context: Context) {
         }
     }
 
+    fun deleteAllDreams() {
+        executor.execute {
+            dreamDao.deleteAllDreams()
+        }
+    }
+
     fun getPhotoFile(dream: Dream): File = File(filesDir, dream.photoFileName)
 
     fun reconstructSampleDatabase() = dreamDao.reconstructSampleDatabase()
+
 
     companion object {
         private const val TAG = "DreamRepository"
