@@ -26,4 +26,9 @@
     </string>
     <string name="dream_summary_subject">Dream Summary</string>
     <string name="send_summary">Send dream summary via</string>
+
+    <string name="nav_all_dreams">All Dreams</string>
+    <string name="nav_active_dreams">Active Dreams</string>
+    <string name="nav_realized_dreams">Realized Dreams</string>
+    <string name="nav_deferred_dreams">Deferred Dreams</string>
 </resources>

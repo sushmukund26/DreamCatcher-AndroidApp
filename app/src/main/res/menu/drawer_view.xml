@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all_dreams"
+            android:icon="@drawable/ic_label_black"
+            android:title="@string/nav_all_dreams" />
+        <item
+            android:id="@+id/nav_active_dreams"
+            android:icon="@drawable/ic_label_outline_black"
+            android:title="@string/nav_active_dreams" />
+        <item
+            android:id="@+id/nav_realized_dreams"
+            android:icon="@drawable/ic_label_outline_black"
+            android:title="@string/nav_realized_dreams" />
+        <item
+            android:id="@+id/nav_deferred_dreams"
+            android:icon="@drawable/ic_label_outline_black"
+            android:title="@string/nav_deferred_dreams" />
+    </group>
+
+</menu>
+
+
+    <!--    You should have four filters for your dreams: all dreams, active dreams, realized dreams, and deferred dreams.
+    The menu items should have IDs nav_all_dreams, nav_active_dreams, nav_realized_dreams, and nav_deferred_dreams.
+    Just to be safe (and consistent) make sure you also use these for the string names.
+    Choosing a menu item will change which dreams you see in the list.
+    For example, if you choose active dreams, you will only see those dreams that have not been completed yet (neither realized nor deferred).
+    When you come back to the list view from the detail view, all dreams should appear by default.-->

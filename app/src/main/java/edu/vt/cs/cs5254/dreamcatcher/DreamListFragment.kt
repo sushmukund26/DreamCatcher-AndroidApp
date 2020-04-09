@@ -7,11 +7,14 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 import edu.vt.cs.cs5254.dreamcatcher.database.Dream
 import edu.vt.cs.cs5254.dreamcatcher.database.DreamEntry
 import edu.vt.cs.cs5254.dreamcatcher.database.DreamEntryKind
@@ -33,6 +36,11 @@ class DreamListFragment : Fragment() {
 
     private lateinit var dreamRecyclerView: RecyclerView
     private var adapter: DreamAdapter? = null
+
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
+
+    private var allDreams: List<Dream> = emptyList()
 
     private val dreamListViewModel: DreamListViewModel by lazy {
         ViewModelProvider(this).get(DreamListViewModel::class.java)
@@ -65,6 +73,9 @@ class DreamListFragment : Fragment() {
             view.findViewById(R.id.dream_recycler_view) as RecyclerView
         dreamRecyclerView.layoutManager = LinearLayoutManager(context)
 
+        drawerLayout = view.findViewById(R.id.drawer_layout)
+        navigationView = view.findViewById(R.id.nav_view)
+
         return view
     }
 
@@ -75,10 +86,26 @@ class DreamListFragment : Fragment() {
             Observer { dreams ->
                 dreams?.let {
                     Log.i(TAG, "Got dreams ${dreams.size}")
+                    allDreams = dreams
                     updateUI(dreams)
                 }
             }
         )
+
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            menuItem.isChecked = true
+            val dreamFilter = when (menuItem.itemId) {
+                R.id.nav_all_dreams -> { _: Dream -> true }
+                R.id.nav_active_dreams -> { dream: Dream -> !dream.isRealized and !dream.isDeferred }
+                R.id.nav_realized_dreams -> { dream: Dream -> dream.isRealized }
+                R.id.nav_deferred_dreams -> { dream: Dream -> dream.isDeferred }
+                else -> { _: Dream -> false }
+            }
+            val dreamsToDisplay: List<Dream> = allDreams.filter { dream -> dreamFilter(dream) }
+            updateUI(dreamsToDisplay)
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
     }
 
     override fun onDetach() {
