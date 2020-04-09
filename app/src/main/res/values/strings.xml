@@ -21,7 +21,7 @@
     <string name="new_dream">New Dream</string>
     <string name="new_comment_placeholder">Enter a new comment</string>
 
-    <string name="dream_summary"># %1$s
+    <string name="dream_summary">%1$s
       %2$s
     </string>
     <string name="dream_summary_subject">Dream Summary</string>

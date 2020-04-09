@@ -215,7 +215,7 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
                     putExtra(Intent.EXTRA_TEXT, getDreamSummary())
                     putExtra(
                         Intent.EXTRA_SUBJECT,
-                        getString(R.string.dream_summary_subject))
+                        dream.description)
                 }.also { intent ->
                     val chooserIntent =
                         Intent.createChooser(intent, getString(R.string.send_summary))
@@ -293,6 +293,10 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
         }
     }
 
+    fun updateDreamEntriesAfterSwipeToDelete(updatedDreamEntries: List<DreamEntry>) {
+        dreamEntries = updatedDreamEntries
+    }
+
     companion object {
 
         fun newInstance(dreamID: UUID): DreamDetailFragment {
@@ -366,9 +370,19 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
         }
 
         fun deleteItem(position: Int) {
-            val dreamEntryToDelete= dreamEntries[position]
-            dreamEntries = dreamEntries - dreamEntryToDelete
-            notifyItemRemoved(position)
+
+            val dreamEntryToDelete= dreamEntryAt(position)
+
+            // only allow deleting comment dream entries
+            if(dreamEntryToDelete.kind == DreamEntryKind.COMMENT) {
+                dreamEntries = dreamEntries.filterIndexed {pos, _ -> pos!=position }
+                updateDreamEntriesAfterSwipeToDelete(dreamEntries)
+                notifyItemRemoved(position)
+            }
+        }
+
+        fun dreamEntryAt(position: Int): DreamEntry {
+            return dreamEntries[position]
         }
     }
 
@@ -384,6 +398,18 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
             adapter?.deleteItem(position)
+        }
+
+        override fun getSwipeDirs(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder
+        ): Int {
+            val position = viewHolder.adapterPosition
+            val dreamEntrySwiped = adapter?.dreamEntryAt(position)
+            if(dreamEntrySwiped?.kind == DreamEntryKind.COMMENT) {
+                return ItemTouchHelper.LEFT
+            }
+            return 0
         }
     }
 }
