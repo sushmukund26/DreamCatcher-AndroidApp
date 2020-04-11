@@ -235,9 +235,15 @@ class DreamDetailFragment : Fragment(), AddDreamEntryFragment.Callbacks {
     }
 
     override fun onStop() {
+
         super.onStop()
         var dreamWithEntries = DreamWithEntries(dream, dreamEntries)
         dreamDetailViewModel.saveDreamWithEntries(dreamWithEntries)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        CameraUtil.revokeCaptureImagePermissions(requireActivity(), photoUri)
     }
 
     override fun onCommentProvided(comment: String) {
